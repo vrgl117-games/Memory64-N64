@@ -7,6 +7,6 @@
 #define BUTTON_START    3
 #define BUTTON_C        4
 
-uint8_t get_pressed_key();
+uint8_t controls_get_pressed_key();
 
 #endif //__CONTROLS_H__

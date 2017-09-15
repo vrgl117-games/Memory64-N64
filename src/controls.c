@@ -1,9 +1,9 @@
 #include "controls.h"
 
-uint8_t get_pressed_key() {
-    
+uint8_t controls_get_pressed_key() {
+
     controller_scan();
-    struct controller_data keys = get_keys_pressed();	
+    struct controller_data keys = get_keys_pressed();
 
     if (keys.c[0].A)
         return BUTTON_A;

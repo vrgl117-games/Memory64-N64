@@ -1,65 +1,38 @@
-
-#include <stdio.h>
-#include <malloc.h>
-#include <string.h>
-#include <stdint.h>
-#include <libdragon.h>
-#include <stdlib.h>
-#include <math.h>
-
-#include "colors.h"
-#include "graphics.h"
 #include "controls.h"
+#include "filesystem.h"
+#include "screens.h"
 
 int main() {
 
   init_interrupts();
   display_init(RESOLUTION_320x240, DEPTH_16_BPP, 2, GAMMA_NONE, ANTIALIAS_RESAMPLE);
+  dfs_init(DFS_DEFAULT_LOCATION);
   controller_init();
+  timer_init();
+
+  new_timer(TIMER_TICKS(1000000), TF_CONTINUOUS, screen_update_counter);
 
   display_context_t disp = 0;
-  uint16_t score = 0;
-  uint16_t best = 0;
+  sprite_t *logo = filesystem_load_sprite("/gfx/logo.sprite");
+  if (!logo)
+    return 1;
 
+  uint8_t screen = SCREEN_TITLE;
   while(true)
   {
-      while(!(disp = display_lock()));
+    uint8_t key = controls_get_pressed_key();
+    while(!(disp = display_lock()));
 
-      // background
-      graphics_fill_screen(disp, LGRAY);
-
-      // joystick
-      graphics_draw_circle(disp, 160, 180, 30, DGRAY, true);
-      graphics_draw_circle(disp, 160, 180, 10, WHITE, true);
-
-      switch (get_pressed_key()) {
-        case BUTTON_START:
-          graphics_draw_circle_with_border(disp, 160, 120, 10, RED, DGRAY);
-          break;
-        case BUTTON_B:
-          graphics_draw_circle_with_border(disp, 200, 120, 11, GREEN, DGRAY);
-          break;
-        case BUTTON_A:
-          score++;
-          graphics_draw_circle_with_border(disp, 222, 142, 11, BLUE, DGRAY);
-          break;
-        case BUTTON_C:
-          graphics_draw_circle_with_border(disp, 230, 100, 6, YELLOW, DGRAY);
-          graphics_draw_circle_with_border(disp, 260, 100, 6, YELLOW, DGRAY);
-          graphics_draw_circle_with_border(disp, 245,  85, 6, YELLOW, DGRAY);
-          graphics_draw_circle_with_border(disp, 245, 115, 6, YELLOW, DGRAY);
-          break;
+    if (screen == SCREEN_TITLE) {
+      if (key == BUTTON_START) {
+        screen = SCREEN_GAME;
       }
+      screen_title(disp, logo);
+    } else if (screen == SCREEN_GAME) {
+      screen_game(disp, key);
+    }
 
-      // score
-      graphics_draw_box(disp, 20, 20, 300, 40, DGRAY);
-      graphics_draw_textf(disp, 30, 30, "SCORE: %d", score);
-
-      if (score > best)
-        best = score;
-      graphics_draw_textf(disp, 30, 36, "BEST:  %d", best);
-
-      display_show(disp);
+    display_show(disp);
   }
 
   display_close();
