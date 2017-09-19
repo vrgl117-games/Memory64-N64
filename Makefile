@@ -13,7 +13,6 @@ AS = $(GCCN64PREFIX)as
 LD = $(GCCN64PREFIX)ld
 OBJCOPY = $(GCCN64PREFIX)objcopy
 
-
 all: $(PROG_NAME).z64
 
 $(PROG_NAME).z64: $(PROG_NAME).bin $(PROG_NAME).dfs
@@ -37,5 +36,12 @@ sprites: $(wildcard resources/gfx/*.png)
 $(PROG_NAME).dfs: sprites
 	$(MKDFSPATH) $@ ./filesystem/
 
+
+cen64:
+	$(CEN64_DIR)/cen64 $(CEN64_DIR)/pifdata.bin $(PROG_NAME).z64
+
+docker:
+	docker build -t build .
+	docker run --rm build cat $(PROG_NAME).z64 > $(PROG_NAME).z64
 clean:
-	rm -f *.z64 *.elf *.o *.bin *.dfs
+	rm -f *.z64 *.elf src/*.o *.bin *.dfs
