@@ -1,4 +1,5 @@
 #include <stdarg.h>
+#include <string.h>
 
 #include "graphics.h"
 
@@ -57,4 +58,8 @@ void graphics_draw_textf(display_context_t disp, int x, int y, const char * cons
   va_end (args);
 
   graphics_draw_text(disp, x, y, buffer);
+}
+
+void graphics_draw_text_center(display_context_t disp, int x, int y, const char * const msg) {
+  graphics_draw_text(disp, x-strlen(msg)*6/2, y, msg);
 }

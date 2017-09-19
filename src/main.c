@@ -1,5 +1,6 @@
 #include "controls.h"
 #include "filesystem.h"
+#include "score.h"
 #include "screens.h"
 
 int main() {
@@ -20,16 +21,27 @@ int main() {
   uint8_t screen = SCREEN_TITLE;
   while(true)
   {
-    uint8_t key = controls_get_pressed_key();
+    controller_t controller = controls_get_keys_down();
     while(!(disp = display_lock()));
 
-    if (screen == SCREEN_TITLE) {
-      if (key == BUTTON_START) {
-        screen = SCREEN_GAME;
-      }
-      screen_title(disp, logo);
-    } else if (screen == SCREEN_GAME) {
-      screen_game(disp, key);
+    switch (screen) {
+      case SCREEN_TITLE:
+        screen_title(disp, logo);
+        if (controller.start) {
+          screen = SCREEN_GAME;
+        }
+        break;
+      case SCREEN_GAME:
+        if (screen_game(disp, controller)) {
+            screen = SCREEN_GAMEOVER;
+        }
+        break;
+      case SCREEN_GAMEOVER:
+        screen_gameover(disp);
+        if (controller.start) {
+          score_reset();
+          screen = SCREEN_GAME;
+        }
     }
 
     display_show(disp);
