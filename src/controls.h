@@ -7,6 +7,8 @@
 #define BUTTON_START    3
 #define BUTTON_C        4
 
-uint8_t controls_get_pressed_key();
+typedef struct SI_condat controller_t;
+
+controller_t controls_get_keys_down();
 
 #endif //__CONTROLS_H__
