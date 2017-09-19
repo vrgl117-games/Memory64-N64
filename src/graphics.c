@@ -44,8 +44,8 @@ void graphics_draw_circle(display_context_t disp, uint16_t x0, uint16_t y0, uint
 }
 
 void graphics_draw_circle_with_border(display_context_t disp, uint16_t x0, uint16_t y0, uint16_t radius, uint16_t color, uint16_t border_color) {
-  graphics_draw_circle(disp, x0, y0, radius, border_color, false);
-  graphics_draw_circle(disp, x0, y0, radius-1, color, true);
+  graphics_draw_circle(disp, x0, y0, radius, border_color, true);
+  graphics_draw_circle(disp, x0, y0, radius-2, color, true);
 }
 
 

@@ -17,34 +17,38 @@ void screen_game(display_context_t disp, uint8_t key) {
     graphics_fill_screen(disp, LGRAY);
 
     // joystick
-    graphics_draw_circle(disp, 160, 180, 30, DGRAY, true);
-    graphics_draw_circle(disp, 160, 180, 10, WHITE, true);
+    graphics_draw_circle_with_border(disp, 320, 340, 60, DGRAY, BLACK);
+    graphics_draw_circle_with_border(disp, 320, 340, 26, WHITE, BLACK);
+    graphics_draw_circle(disp, 320, 340, 18, DGRAY, false);
+    graphics_draw_circle(disp, 320, 340, 10, DGRAY, false);
+    graphics_draw_circle(disp, 320, 340, 2, DGRAY, false);
 
     switch (key) {
     case BUTTON_START:
-        graphics_draw_circle_with_border(disp, 160, 120, 10, RED, DGRAY);
+        graphics_draw_circle_with_border(disp, 320, 220, 20, RED, BLACK);
         break;
     case BUTTON_B:
-        graphics_draw_circle_with_border(disp, 200, 120, 11, GREEN, DGRAY);
+        graphics_draw_circle_with_border(disp, 400, 220, 24, GREEN, BLACK);
         break;
     case BUTTON_A:
         score++;
-        graphics_draw_circle_with_border(disp, 222, 142, 11, BLUE, DGRAY);
+        graphics_draw_circle_with_border(disp, 444, 264, 24, BLUE, BLACK);
         break;
     case BUTTON_C:
-        graphics_draw_circle_with_border(disp, 230, 100, 6, YELLOW, DGRAY);
-        graphics_draw_circle_with_border(disp, 260, 100, 6, YELLOW, DGRAY);
-        graphics_draw_circle_with_border(disp, 245,  85, 6, YELLOW, DGRAY);
-        graphics_draw_circle_with_border(disp, 245, 115, 6, YELLOW, DGRAY);
+        graphics_draw_circle_with_border(disp, 460, 180, 12, YELLOW, BLACK);
+        graphics_draw_circle_with_border(disp, 520, 180, 12, YELLOW, BLACK);
+        graphics_draw_circle_with_border(disp, 490, 150, 12, YELLOW, BLACK);
+        graphics_draw_circle_with_border(disp, 490, 210, 12, YELLOW, BLACK);
         break;
     }
 
     // score
-    graphics_draw_box(disp, 20, 20, 280, 20, DGRAY);
+    graphics_draw_box(disp, 20, 20, 600, 20, DGRAY);
 
     if (score > best)
-    best = score;
-    graphics_draw_textf(disp, 25, 26, "SCORE: %04d            BEST: %04d", score, best);
+        best = score;
+    graphics_draw_textf(disp, 25, 26, "SCORE: %04d", score);
+    graphics_draw_textf(disp, 535, 26, "BEST: %04d", best);
 }
 
 void screen_title(display_context_t disp, sprite_t *logo) {
@@ -52,31 +56,33 @@ void screen_title(display_context_t disp, sprite_t *logo) {
     graphics_fill_screen(disp, LGRAY);
 
     // logo
-
-    graphics_draw_sprite_trans(disp, 76, 20, logo);
+    graphics_draw_sprite_trans(disp, 320-logo->width/2, 30, logo);
 
     // joystick
-    graphics_draw_circle(disp, 160, 170, 30, DGRAY, true);
-    graphics_draw_circle(disp, 160, 170, 10, WHITE, true);
+    graphics_draw_circle_with_border(disp, 320, 340, 60, DGRAY, BLACK);
+    graphics_draw_circle_with_border(disp, 320, 340, 26, WHITE, BLACK);
+    graphics_draw_circle(disp, 320, 340, 18, DGRAY, false);
+    graphics_draw_circle(disp, 320, 340, 10, DGRAY, false);
+    graphics_draw_circle(disp, 320, 340, 2, DGRAY, false);
 
     // start
-    graphics_draw_circle_with_border(disp, 160, 110, 10, RED, DGRAY);
+    graphics_draw_circle_with_border(disp, 320, 220, 20, RED, BLACK);
 
     // B
-    graphics_draw_circle_with_border(disp, 200, 110, 11, GREEN, DGRAY);
+    graphics_draw_circle_with_border(disp, 400, 220, 24, GREEN, BLACK);
 
     // A
-    graphics_draw_circle_with_border(disp, 222, 132, 11, BLUE, DGRAY);
+    graphics_draw_circle_with_border(disp, 444, 264, 24, BLUE, BLACK);
 
     // C
-    graphics_draw_circle_with_border(disp, 230,  90, 6, YELLOW, DGRAY);
-    graphics_draw_circle_with_border(disp, 260,  90, 6, YELLOW, DGRAY);
-    graphics_draw_circle_with_border(disp, 245,  75, 6, YELLOW, DGRAY);
-    graphics_draw_circle_with_border(disp, 245, 105, 6, YELLOW, DGRAY);
+    graphics_draw_circle_with_border(disp, 460, 180, 12, YELLOW, BLACK);
+    graphics_draw_circle_with_border(disp, 520, 180, 12, YELLOW, BLACK);
+    graphics_draw_circle_with_border(disp, 490, 150, 12, YELLOW, BLACK);
+    graphics_draw_circle_with_border(disp, 490, 210, 12, YELLOW, BLACK);
 
     // press start
     if (seconds%2 == 0) {
-        graphics_draw_box(disp, 110, 210, 100, 20, DGRAY);
-        graphics_draw_text(disp, 115, 216, "PRESS START");
+        graphics_draw_box(disp, 270, 430, 100, 20, DGRAY);
+        graphics_draw_text(disp, 277, 436, "PRESS START");
     }
 }
