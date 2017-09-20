@@ -8,6 +8,7 @@
 
 #include "colors.h"
 #include "controls.h"
+#include "fps.h"
 #include "graphics.h"
 #include "score.h"
 #include "screens.h"
@@ -16,6 +17,7 @@ static volatile uint8_t seconds = 0;
 
 void screen_update_counter() {
     seconds++;
+    fps_refresh_set(true);
 }
 
 bool screen_game(display_context_t disp, controller_t controller) {
