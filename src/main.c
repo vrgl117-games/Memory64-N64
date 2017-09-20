@@ -8,6 +8,8 @@
 
 #include "controls.h"
 #include "filesystem.h"
+#include "fps.h"
+#include "graphics.h"
 #include "score.h"
 #include "screens.h"
 
@@ -27,8 +29,12 @@ int main() {
     return 1;
 
   uint8_t screen = SCREEN_TITLE;
+
+  uint8_t fps = 0;
+  uint8_t frames_count = 0;
   while(true)
   {
+
     controller_t controller = controls_get_keys_down();
     while(!(disp = display_lock()));
 
@@ -51,6 +57,14 @@ int main() {
           screen = SCREEN_GAME;
         }
     }
+
+    frames_count++;
+    if (fps_refresh_get()) {
+      fps = frames_count;
+      frames_count = 0;
+      fps_refresh_set(false);
+    }
+    graphics_draw_textf(disp, 5, 5, "FPS: %d", fps);
 
     display_show(disp);
   }

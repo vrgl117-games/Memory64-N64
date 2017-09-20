@@ -31,6 +31,11 @@ bool screen_game(display_context_t disp, controller_t controller) {
     graphics_draw_circle(disp, 320, 340, 10, DGRAY, false);
     graphics_draw_circle(disp, 320, 340, 2, DGRAY, false);
 
+    // D-pad
+    graphics_draw_box_with_border(disp, 96, 168, 84, 24, DGRAY, BLACK);
+    graphics_draw_box_with_border(disp, 126, 138, 24, 84, DGRAY, BLACK);
+    graphics_draw_box(disp, 126, 170, 24, 20, DGRAY);
+
     if (controller.start) {
         graphics_draw_circle_with_border(disp, 320, 220, 20, RED, BLACK);
         return true;
@@ -99,6 +104,11 @@ void screen_title(display_context_t disp, sprite_t *logo) {
     graphics_draw_circle_with_border(disp, 520, 180, 12, YELLOW, BLACK);
     graphics_draw_circle_with_border(disp, 490, 150, 12, YELLOW, BLACK);
     graphics_draw_circle_with_border(disp, 490, 210, 12, YELLOW, BLACK);
+
+    // D-pad
+    graphics_draw_box_with_border(disp, 96, 168, 84, 24, DGRAY, BLACK);
+    graphics_draw_box_with_border(disp, 126, 138, 24, 84, DGRAY, BLACK);
+    graphics_draw_box(disp, 126, 170, 24, 20, DGRAY);
 
     // press start
     if (seconds%2 == 0) {

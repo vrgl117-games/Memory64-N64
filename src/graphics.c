@@ -11,6 +11,11 @@
 
 #include "graphics.h"
 
+void graphics_draw_box_with_border(display_context_t disp, uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t color, uint16_t border_color) {
+  graphics_draw_box(disp, x, y, width, height, border_color);
+  graphics_draw_box(disp, x+2, y+2, width-4, height-4, color);
+}
+
 void graphics_draw_circle(display_context_t disp, uint16_t x0, uint16_t y0, uint16_t radius, uint16_t color, bool fill) {
   int x = radius;
   int y = 0;
@@ -56,7 +61,6 @@ void graphics_draw_circle_with_border(display_context_t disp, uint16_t x0, uint1
   graphics_draw_circle(disp, x0, y0, radius, border_color, true);
   graphics_draw_circle(disp, x0, y0, radius-2, color, true);
 }
-
 
 void graphics_draw_textf(display_context_t disp, int x, int y, const char * const format, ...) {
   char buffer[256];
