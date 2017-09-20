@@ -1,3 +1,11 @@
+/* main.c -- main implementation
+ *
+ * Copyright (C) 2017 Victor Vieux
+ *
+ * This software may be modified and distributed under the terms
+ * of the Apache license.  See the LICENSE file for details.
+ */
+
 #include "controls.h"
 #include "filesystem.h"
 #include "score.h"
@@ -48,6 +56,7 @@ int main() {
   }
 
   display_close();
+  free(logo);
 
   return 0;
 
