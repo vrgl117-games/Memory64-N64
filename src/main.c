@@ -6,6 +6,7 @@
  * of the Apache license.  See the LICENSE file for details.
  */
 
+#include "colors.h"
 #include "controls.h"
 #include "filesystem.h"
 #include "fps.h"
@@ -17,6 +18,7 @@ int main() {
 
   init_interrupts();
   display_init(RESOLUTION_640x480, DEPTH_16_BPP, 2, GAMMA_NONE, ANTIALIAS_RESAMPLE);
+  rdp_init();
   dfs_init(DFS_DEFAULT_LOCATION);
   controller_init();
   timer_init();
@@ -32,6 +34,11 @@ int main() {
 
   uint8_t fps = 0;
   uint8_t frames_count = 0;
+
+  uint32_t *colors = graphics_make_colors();
+
+  rdp_set_texture_flush(FLUSH_STRATEGY_NONE);
+
   while(true)
   {
 
@@ -40,18 +47,18 @@ int main() {
 
     switch (screen) {
       case SCREEN_TITLE:
-        screen_title(disp, logo);
+        screen_title(disp, colors, logo);
         if (controller.start) {
           screen = SCREEN_GAME;
         }
         break;
       case SCREEN_GAME:
-        if (screen_game(disp, controller)) {
+        if (screen_game(disp, colors,  controller)) {
             screen = SCREEN_GAMEOVER;
         }
         break;
       case SCREEN_GAMEOVER:
-        screen_gameover(disp);
+        screen_gameover(disp, colors);
         if (controller.start) {
           score_reset();
           screen = SCREEN_GAME;

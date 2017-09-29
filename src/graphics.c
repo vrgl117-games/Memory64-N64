@@ -8,7 +8,9 @@
 
 #include <stdarg.h>
 #include <string.h>
+#include <malloc.h>
 
+#include "colors.h"
 #include "graphics.h"
 
 void graphics_draw_box_with_border(display_context_t disp, uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t color, uint16_t border_color) {
@@ -74,4 +76,17 @@ void graphics_draw_textf(display_context_t disp, int x, int y, const char * cons
 
 void graphics_draw_text_center(display_context_t disp, int x, int y, const char * const msg) {
   graphics_draw_text(disp, x-strlen(msg)*6/2, y, msg);
+}
+
+uint32_t *graphics_make_colors() {
+  uint32_t *colors = malloc(NUM_COLORS * sizeof(uint32_t));
+  colors[BLACK] = graphics_make_color(0x00,0x00,0x00,0xff);
+  colors[LGRAY] =  graphics_make_color(0xbd,0xbd,0xbd,0xff);
+  colors[DGRAY] =  graphics_make_color(0x3a,0x3a,0x3a,0xff);
+  colors[RED] = graphics_make_color(0xfd,0x00,0x00,0xff);
+  colors[GREEN] = graphics_make_color(0x20,0xff,0x00,0xff);
+  colors[BLUE] = graphics_make_color(0x0a,0x00,0xff,0xff);
+  colors[YELLOW] = graphics_make_color(0xff,0xff,0x00,0xff);
+  colors[WHITE] = graphics_make_color(0xff,0xff,0xff,0xff);
+  return colors;
 }

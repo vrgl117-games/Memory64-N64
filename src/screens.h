@@ -15,9 +15,9 @@
 #define SCREEN_GAMEOVER 2
 
 
-bool screen_game(display_context_t disp, controller_t controller);
-void screen_gameover(display_context_t disp);
-void screen_title(display_context_t disp, sprite_t *logo);
+bool screen_game(display_context_t disp, uint32_t colors[8], controller_t controller);
+void screen_gameover(display_context_t disp, uint32_t colors[8]);
+void screen_title(display_context_t disp, uint32_t colors[8], sprite_t *logo);
 void screen_update_counter();
 
 #endif //__SCREENS_H__
