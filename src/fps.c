@@ -10,10 +10,12 @@
 
 static volatile bool fps_refresh = false;
 
-bool fps_refresh_get() {
+bool fps_refresh_get()
+{
     return fps_refresh;
 }
 
-void fps_refresh_set(bool b) {
+void fps_refresh_set(bool b)
+{
     fps_refresh = b;
 }

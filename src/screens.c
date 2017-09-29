@@ -16,18 +16,20 @@
 
 static volatile uint8_t seconds = 0;
 
-void screen_update_counter() {
+void screen_update_counter()
+{
     seconds++;
     fps_refresh_set(true);
 }
 
-bool screen_game(display_context_t disp, uint32_t *colors, controller_t controller) {
+bool screen_game(display_context_t disp, uint32_t *colors, controller_t controller)
+{
     static uint16_t best = 0;
 
     rdp_attach(disp);
 
     // background
-    rdp_draw_filled_rectangle_size(0,0,640,480, colors[LGRAY]);
+    rdp_draw_filled_rectangle_size(0, 0, 640, 480, colors[LGRAY]);
 
     // joystick
     rdp_draw_filled_octagon_with_border(320, 340, 60, 32, colors[DGRAY], colors[BLACK]);
@@ -69,37 +71,40 @@ bool screen_game(display_context_t disp, uint32_t *colors, controller_t controll
     rdp_detach_display();
 
     uint16_t current_score = score_get();
-    if (current_score > best)
+    if (current_score > best) {
         best = current_score;
+    }
     graphics_draw_textf(disp, 25, 26, "SCORE: %04d", current_score);
     graphics_draw_textf(disp, 535, 26, "BEST: %04d", best);
 
     return false;
 }
 
-void screen_gameover(display_context_t disp, uint32_t *colors) {
+void screen_gameover(display_context_t disp, uint32_t *colors)
+{
     rdp_attach(disp);
 
     // background
-    rdp_draw_filled_rectangle_size(0,0,640,480, colors[DGRAY]);
+    rdp_draw_filled_rectangle_size(0, 0, 640, 480, colors[DGRAY]);
 
     rdp_detach_display();
 
     graphics_draw_text_center(disp, 320, 240, "GAME OVER");
 }
 
-void screen_title(display_context_t disp, uint32_t *colors, sprite_t *logo) {
+void screen_title(display_context_t disp, uint32_t *colors, sprite_t *logo)
+{
     rdp_attach(disp);
 
     // background
-    rdp_draw_filled_rectangle_size(0,0,640,480, colors[LGRAY]);
+    rdp_draw_filled_rectangle_size(0, 0, 640, 480, colors[LGRAY]);
 
 
     // logo
     rdp_enable_texture_copy();
     rdp_sync( SYNC_PIPE );
     rdp_load_texture( 0, 0, MIRROR_DISABLED, logo );
-    rdp_draw_sprite(0,30, 30);
+    rdp_draw_sprite(0, 30, 30);
     rdp_sync( SYNC_PIPE );
 
     // joystick
@@ -130,7 +135,7 @@ void screen_title(display_context_t disp, uint32_t *colors, sprite_t *logo) {
     rdp_draw_filled_rectangle_size(126, 170, 24, 20, colors[DGRAY]);
 
     // press start
-    if (seconds%2 == 0) {
+    if (seconds % 2 == 0) {
         rdp_draw_filled_rectangle_size(270, 430, 100, 20, colors[DGRAY]);
         graphics_draw_text(disp, 277, 436, "PRESS START");
     }

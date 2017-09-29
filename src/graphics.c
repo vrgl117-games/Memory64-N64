@@ -13,80 +13,83 @@
 #include "colors.h"
 #include "graphics.h"
 
-void graphics_draw_box_with_border(display_context_t disp, uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t color, uint16_t border_color) {
-  graphics_draw_box(disp, x, y, width, height, border_color);
-  graphics_draw_box(disp, x+2, y+2, width-4, height-4, color);
+void graphics_draw_box_with_border(display_context_t disp, uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t color, uint16_t border_color)
+{
+    graphics_draw_box(disp, x, y, width, height, border_color);
+    graphics_draw_box(disp, x + 2, y + 2, width - 4, height - 4, color);
 }
 
-void graphics_draw_circle(display_context_t disp, uint16_t x0, uint16_t y0, uint16_t radius, uint16_t color, bool fill) {
-  int x = radius;
-  int y = 0;
-  int dx = 1;
-  int dy = 1;
-  int err = dx - (radius << 1);
+void graphics_draw_circle(display_context_t disp, uint16_t x0, uint16_t y0, uint16_t radius, uint16_t color, bool fill)
+{
+    int x = radius;
+    int y = 0;
+    int dx = 1;
+    int dy = 1;
+    int err = dx - (radius << 1);
 
-  while (x >= y)
-  {
-    if (fill) {
-      graphics_draw_line(disp, x0 - x, y0 + y, x0 + x, y0 + y, color);
-      graphics_draw_line(disp, x0 - y, y0 + x, x0 + y, y0 + x, color);
-      graphics_draw_line(disp, x0 - x, y0 - y, x0 + x, y0 - y, color);
-      graphics_draw_line(disp, x0 - y, y0 - x, x0 + y, y0 - x, color);
-    } else {
-      graphics_draw_pixel(disp, x0 + x, y0 + y, color);
-			graphics_draw_pixel(disp, x0 + y, y0 + x, color);
-			graphics_draw_pixel(disp, x0 - y, y0 + x, color);
-			graphics_draw_pixel(disp, x0 - x, y0 + y, color);
-			graphics_draw_pixel(disp, x0 - x, y0 - y, color);
-			graphics_draw_pixel(disp, x0 - y, y0 - x, color);
-			graphics_draw_pixel(disp, x0 + y, y0 - x, color);
-			graphics_draw_pixel(disp, x0 + x, y0 - y, color);
+    while (x >= y) {
+        if (fill) {
+            graphics_draw_line(disp, x0 - x, y0 + y, x0 + x, y0 + y, color);
+            graphics_draw_line(disp, x0 - y, y0 + x, x0 + y, y0 + x, color);
+            graphics_draw_line(disp, x0 - x, y0 - y, x0 + x, y0 - y, color);
+            graphics_draw_line(disp, x0 - y, y0 - x, x0 + y, y0 - x, color);
+        } else {
+            graphics_draw_pixel(disp, x0 + x, y0 + y, color);
+            graphics_draw_pixel(disp, x0 + y, y0 + x, color);
+            graphics_draw_pixel(disp, x0 - y, y0 + x, color);
+            graphics_draw_pixel(disp, x0 - x, y0 + y, color);
+            graphics_draw_pixel(disp, x0 - x, y0 - y, color);
+            graphics_draw_pixel(disp, x0 - y, y0 - x, color);
+            graphics_draw_pixel(disp, x0 + y, y0 - x, color);
+            graphics_draw_pixel(disp, x0 + x, y0 - y, color);
 
+        }
+
+        if (err <= 0) {
+            y++;
+            err += dy;
+            dy += 2;
+        }
+        if (err > 0) {
+            x--;
+            dx += 2;
+            err += (-radius << 1) + dx;
+        }
     }
-
-    if (err <= 0)
-    {
-        y++;
-        err += dy;
-        dy += 2;
-    }
-    if (err > 0)
-    {
-        x--;
-        dx += 2;
-        err += (-radius << 1) + dx;
-    }
-  }
 }
 
-void graphics_draw_circle_with_border(display_context_t disp, uint16_t x0, uint16_t y0, uint16_t radius, uint16_t color, uint16_t border_color) {
-  graphics_draw_circle(disp, x0, y0, radius, border_color, true);
-  graphics_draw_circle(disp, x0, y0, radius-2, color, true);
+void graphics_draw_circle_with_border(display_context_t disp, uint16_t x0, uint16_t y0, uint16_t radius, uint16_t color, uint16_t border_color)
+{
+    graphics_draw_circle(disp, x0, y0, radius, border_color, true);
+    graphics_draw_circle(disp, x0, y0, radius - 2, color, true);
 }
 
-void graphics_draw_textf(display_context_t disp, int x, int y, const char * const format, ...) {
-  char buffer[256];
-  va_list args;
-  va_start(args, format);
-  vsprintf(buffer, format, args);
-  va_end (args);
+void graphics_draw_textf(display_context_t disp, int x, int y, const char *const format, ...)
+{
+    char buffer[256];
+    va_list args;
+    va_start(args, format);
+    vsprintf(buffer, format, args);
+    va_end (args);
 
-  graphics_draw_text(disp, x, y, buffer);
+    graphics_draw_text(disp, x, y, buffer);
 }
 
-void graphics_draw_text_center(display_context_t disp, int x, int y, const char * const msg) {
-  graphics_draw_text(disp, x-strlen(msg)*6/2, y, msg);
+void graphics_draw_text_center(display_context_t disp, int x, int y, const char *const msg)
+{
+    graphics_draw_text(disp, x - strlen(msg) * 6 / 2, y, msg);
 }
 
-uint32_t *graphics_make_colors() {
-  uint32_t *colors = malloc(NUM_COLORS * sizeof(uint32_t));
-  colors[BLACK] = graphics_make_color(0x00,0x00,0x00,0xff);
-  colors[LGRAY] =  graphics_make_color(0xbd,0xbd,0xbd,0xff);
-  colors[DGRAY] =  graphics_make_color(0x3a,0x3a,0x3a,0xff);
-  colors[RED] = graphics_make_color(0xfd,0x00,0x00,0xff);
-  colors[GREEN] = graphics_make_color(0x20,0xff,0x00,0xff);
-  colors[BLUE] = graphics_make_color(0x0a,0x00,0xff,0xff);
-  colors[YELLOW] = graphics_make_color(0xff,0xff,0x00,0xff);
-  colors[WHITE] = graphics_make_color(0xff,0xff,0xff,0xff);
-  return colors;
+uint32_t *graphics_make_colors()
+{
+    uint32_t *colors = malloc(NUM_COLORS * sizeof(uint32_t));
+    colors[BLACK] = graphics_make_color(0x00, 0x00, 0x00, 0xff);
+    colors[LGRAY] =  graphics_make_color(0xbd, 0xbd, 0xbd, 0xff);
+    colors[DGRAY] =  graphics_make_color(0x3a, 0x3a, 0x3a, 0xff);
+    colors[RED] = graphics_make_color(0xfd, 0x00, 0x00, 0xff);
+    colors[GREEN] = graphics_make_color(0x20, 0xff, 0x00, 0xff);
+    colors[BLUE] = graphics_make_color(0x0a, 0x00, 0xff, 0xff);
+    colors[YELLOW] = graphics_make_color(0xff, 0xff, 0x00, 0xff);
+    colors[WHITE] = graphics_make_color(0xff, 0xff, 0xff, 0xff);
+    return colors;
 }
