@@ -80,16 +80,3 @@ void graphics_draw_text_center(display_context_t disp, int x, int y, const char 
     graphics_draw_text(disp, x - strlen(msg) * 6 / 2, y, msg);
 }
 
-uint32_t *graphics_make_colors()
-{
-    uint32_t *colors = malloc(NUM_COLORS * sizeof(uint32_t));
-    colors[BLACK] = graphics_make_color(0x00, 0x00, 0x00, 0xff);
-    colors[LGRAY] =  graphics_make_color(0xbd, 0xbd, 0xbd, 0xff);
-    colors[DGRAY] =  graphics_make_color(0x3a, 0x3a, 0x3a, 0xff);
-    colors[RED] = graphics_make_color(0xfd, 0x00, 0x00, 0xff);
-    colors[GREEN] = graphics_make_color(0x20, 0xff, 0x00, 0xff);
-    colors[BLUE] = graphics_make_color(0x0a, 0x00, 0xff, 0xff);
-    colors[YELLOW] = graphics_make_color(0xff, 0xff, 0x00, 0xff);
-    colors[WHITE] = graphics_make_color(0xff, 0xff, 0xff, 0xff);
-    return colors;
-}

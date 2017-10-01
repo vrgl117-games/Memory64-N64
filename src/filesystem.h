@@ -9,8 +9,13 @@
 #ifndef __FILESYSTEM_H__
 
 #include <libdragon.h>
-#include <malloc.h>
 
-sprite_t *filesystem_load_sprite(const char *const spritename);
+#define LOGO 0
+
+#define NUM_SPRITES 1
+
+void filesystem_init();
+sprite_t *filesystem_get_sprite(int i);
+void filesystem_sprites_free();
 
 #endif //__FILESYSTEM_H__

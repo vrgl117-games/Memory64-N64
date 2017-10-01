@@ -6,79 +6,83 @@
  * of the Apache license.  See the LICENSE file for details.
  */
 
+#include <stdlib.h>
+
 #include "colors.h"
 #include "controls.h"
 #include "filesystem.h"
 #include "fps.h"
+#include "game.h"
 #include "graphics.h"
-#include "score.h"
 #include "screens.h"
 
 int main()
 {
-
     init_interrupts();
     display_init(RESOLUTION_640x480, DEPTH_16_BPP, 2, GAMMA_NONE, ANTIALIAS_RESAMPLE);
     rdp_init();
-    dfs_init(DFS_DEFAULT_LOCATION);
+    filesystem_init();
     controller_init();
+    colors_init();
     timer_init();
+    game_init();
 
-    new_timer(TIMER_TICKS(1000000), TF_CONTINUOUS, screen_update_counter);
+    new_timer(TIMER_TICKS(1000000), TF_CONTINUOUS, fps_timer);
+
+    srand(timer_ticks() & 0x7FFFFFFF);
+
+    timer_link_t *timer_press_start =  new_timer(TIMER_TICKS(1000000), TF_CONTINUOUS, screen_timer_press_start);
+
 
     display_context_t disp = 0;
-    sprite_t *logo = filesystem_load_sprite("/gfx/logo.sprite");
-    if (!logo) {
-        return 1;
-    }
 
-    uint8_t screen = SCREEN_TITLE;
+    screen_t screen = title;
 
-    uint8_t fps = 0;
-    uint8_t frames_count = 0;
-
-    uint32_t *colors = graphics_make_colors();
+    bool show_fps = false;
 
     rdp_set_texture_flush(FLUSH_STRATEGY_NONE);
 
     while (true) {
 
         controller_t controller = controls_get_keys_down();
+        if (controller.Z) {
+            show_fps = !show_fps;
+        }
+
         while (!(disp = display_lock()));
 
         switch (screen) {
-            case SCREEN_TITLE:
-                screen_title(disp, colors, logo);
+            case title:
+                screen_title(disp);
                 if (controller.start) {
-                    screen = SCREEN_GAME;
+                    delete_timer(timer_press_start);
+                    game_set_level(1);
+                    screen = game;
                 }
                 break;
-            case SCREEN_GAME:
-                if (screen_game(disp, colors,  controller)) {
-                    screen = SCREEN_GAMEOVER;
+            case game:
+                if (screen_game(disp, controller)) {
+                    screen = gameover;
                 }
                 break;
-            case SCREEN_GAMEOVER:
-                screen_gameover(disp, colors);
+            case gameover:
+                screen_gameover(disp);
                 if (controller.start) {
-                    score_reset();
-                    screen = SCREEN_GAME;
+                    game_init();
+                    game_set_level(1);
+                    screen = game;
                 }
         }
 
-        frames_count++;
-        if (fps_refresh_get()) {
-            fps = frames_count;
-            frames_count = 0;
-            fps_refresh_set(false);
+        fps_frame();
+        if (show_fps) {
+            graphics_draw_textf(disp, 5, 5, "FPS: %d", fps_get());
         }
-        graphics_draw_textf(disp, 5, 5, "FPS: %d", fps);
-
         display_show(disp);
     }
 
     display_close();
-    free(logo);
+    filesystem_sprites_free();
 
     return 0;
 

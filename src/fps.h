@@ -10,7 +10,8 @@
 
 #include <libdragon.h>
 
-bool fps_refresh_get();
-void fps_refresh_set(bool b);
+void fps_frame();
+uint8_t fps_get();
+void fps_timer();
 
 #endif // __FPS_H__

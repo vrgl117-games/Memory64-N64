@@ -9,13 +9,27 @@
 #include "fps.h"
 
 static volatile bool fps_refresh = false;
+static volatile uint8_t fps;
 
-bool fps_refresh_get()
+inline void fps_frame()
 {
-    return fps_refresh;
+    static uint8_t frame_count = 0;
+
+    frame_count++;
+    if (fps_refresh) {
+        fps = frame_count;
+        frame_count = 0;
+        fps_refresh = false;
+    }
 }
 
-void fps_refresh_set(bool b)
+uint8_t fps_get()
 {
-    fps_refresh = b;
+    return fps;
+}
+
+
+void fps_timer()
+{
+    fps_refresh = true;
 }

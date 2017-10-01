@@ -20,8 +20,8 @@ void rdp_attach(display_context_t disp)
 
 void rdp_draw_filled_octagon(int x0, int y0, int radius, int sides, uint32_t color)
 {
-    rdp_enable_blend_fill();
-    rdp_set_blend_color(color);
+    rdp_set_primitive_color(color);
+    rdp_enable_primitive_fill();
 
     float angle = (3.141592653589793 * 2) / sides;
 

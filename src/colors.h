@@ -8,15 +8,24 @@
 
 #ifndef __COLORS_H__
 
-#define BLACK   0
-#define DGRAY   1
-#define LGRAY   2
-#define RED     3
-#define GREEN   4
-#define BLUE    5
-#define YELLOW  6
-#define WHITE   7
+#include <libdragon.h>
 
-#define NUM_COLORS 8
+#define BLACK    0
+#define DGRAY    1
+#define LGRAY    2
+#define RED      3
+#define BRED     4
+#define GREEN    5
+#define BGREEN   6
+#define BLUE     7
+#define BBLUE    8
+#define YELLOW   9
+#define BYELLOW 10
+#define WHITE   11
+
+#define NUM_COLORS 12
+
+void colors_init();
+uint32_t colors_get(int i);
 
 #endif //__COLORS_H__
