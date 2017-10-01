@@ -23,9 +23,10 @@ void screen_timer_press_start()
     seconds++;
 }
 
-void print_controller() {
-// background
-rdp_draw_filled_rectangle_size(0, 0, 640, 480, colors[LGRAY]);
+void print_controller()
+{
+    // background
+    rdp_draw_filled_rectangle_size(0, 0, 640, 480, colors[LGRAY]);
 
     // joystick
     rdp_draw_filled_octagon_with_border(320, 340, 60, 32, colors[DGRAY], colors[BLACK]);

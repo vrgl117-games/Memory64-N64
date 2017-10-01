@@ -10,28 +10,28 @@
 
 #include <libdragon.h>
 
- typedef struct game {
-     uint8_t notes[256];
-     uint8_t current;
-     uint8_t size;
+typedef struct game {
+    uint8_t notes[256];
+    uint8_t current;
+    uint8_t size;
 
-     uint16_t score;
-     uint16_t best;
+    uint16_t score;
+    uint16_t best;
 
-     bool pause;
-     timer_link_t *timer_IA;
+    bool pause;
+    timer_link_t *timer_IA;
 
- } game_t;
+} game_t;
 
- #define BUTTON_START 0
- #define BUTTON_A     1
- #define BUTTON_B     2
- #define BUTTON_C     3
+#define BUTTON_START 0
+#define BUTTON_A     1
+#define BUTTON_B     2
+#define BUTTON_C     3
 
- void game_init();
- game_t game_get();
- bool game_play_player(uint8_t button);
- void game_timer_IA();
- void game_set_level(uint8_t size);
+void game_init();
+game_t game_get();
+bool game_play_player(uint8_t button);
+void game_timer_IA();
+void game_set_level(uint8_t size);
 
- #endif //__GAME_H__
+#endif //__GAME_H__

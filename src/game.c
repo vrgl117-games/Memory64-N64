@@ -27,7 +27,8 @@ void game_set_level(uint8_t size)
 
 }
 
-void game_timer_IA() {
+void game_timer_IA()
+{
     if (!game.pause) {
         game.current++;
     } else {
@@ -48,19 +49,19 @@ game_t game_get()
 
 bool game_play_player(uint8_t button)
 {
-        if (game.notes[game.current] == button) {
-            game.current++;
-            if (game.current == game.size) {
-                game.score++;
-                if (game.score > game.best) {
-                    game.best = game.score;
-                }
-                game_set_level(game.size + 1);
+    if (game.notes[game.current] == button) {
+        game.current++;
+        if (game.current == game.size) {
+            game.score++;
+            if (game.score > game.best) {
+                game.best = game.score;
             }
-        } else {
-            game.score = 0;
-            return true;
+            game_set_level(game.size + 1);
         }
+    } else {
+        game.score = 0;
+        return true;
+    }
 
     return false;
 }
