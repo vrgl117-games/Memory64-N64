@@ -28,7 +28,6 @@ typedef struct game {
 #define BUTTON_B     2
 #define BUTTON_C     3
 
-void game_init();
 game_t game_get();
 bool game_play_player(uint8_t button);
 void game_timer_IA();

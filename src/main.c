@@ -25,13 +25,12 @@ int main()
     controller_init();
     colors_init();
     timer_init();
-    game_init();
 
     new_timer(TIMER_TICKS(1000000), TF_CONTINUOUS, fps_timer);
 
     srand(timer_ticks() & 0x7FFFFFFF);
 
-    timer_link_t *timer_press_start =  new_timer(TIMER_TICKS(1000000), TF_CONTINUOUS, screen_timer_press_start);
+    timer_link_t *timer_press_start =  new_timer(TIMER_TICKS(500000), TF_CONTINUOUS, screen_timer_title);
 
 
     display_context_t disp = 0;
@@ -68,7 +67,6 @@ int main()
             case gameover:
                 screen_gameover(disp);
                 if (controller.start) {
-                    game_init();
                     game_set_level(1);
                     screen = game;
                 }

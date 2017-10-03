@@ -11,15 +11,15 @@
 
 static game_t game;
 
-void game_init()
-{
-    for (int i = 0; i < 256; i++) {
-        game.notes[i] = rand() % 2;
-    }
-}
+
 
 void game_set_level(uint8_t size)
 {
+    if (size == 1) {
+        for (int i = 0; i < 256; i++) {
+            game.notes[i] = rand() % 2;
+        }
+    }
     game.current = 0;
     game.size = size;
     game.timer_IA = new_timer(TIMER_TICKS(500000), TF_CONTINUOUS, game_timer_IA);

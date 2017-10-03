@@ -16,11 +16,11 @@
 #include "screens.h"
 
 extern uint32_t colors[NUM_COLORS];
-static volatile uint8_t seconds = 0;
+static volatile uint8_t tick = 0;
 
-void screen_timer_press_start()
+void screen_timer_title()
 {
-    seconds++;
+    tick++;
 }
 
 void print_controller()
@@ -139,10 +139,10 @@ void screen_title(display_context_t disp)
     print_controller();
 
     // logo
-    graphics_draw_sprite_trans(disp, 320 - filesystem_get_sprite(LOGO)->width / 2, 30, filesystem_get_sprite(LOGO));
+    graphics_draw_sprite_trans_stride(disp, 320 - filesystem_get_sprite(LOGO)->width / 2, 30, filesystem_get_sprite(LOGO), tick % 9);
 
     // press start
-    if (seconds % 2) {
+    if (tick % 4 > 2) {
         rdp_draw_filled_rectangle_size(270, 430, 100, 20, graphics_make_color(0x3a, 0x3a, 0x3a, 0x00));
         graphics_draw_text(disp, 277, 436, "PRESS START");
     }

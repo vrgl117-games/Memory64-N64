@@ -31,7 +31,7 @@ $(PROG_NAME).elf : $(OBJS)
 
 sprites: $(wildcard resources/gfx/*.png)
 	mkdir -p filesystem/gfx/
-	$(MKSPRITE) 16 1 1 $< $(patsubst resources/%,filesystem/%, $(patsubst %.png,%.sprite,$<) )
+	$(MKSPRITE) 16 1 9 $< $(patsubst resources/%,filesystem/%, $(patsubst %.png,%.sprite,$<) )
 
 $(PROG_NAME).dfs: sprites
 	$(MKDFSPATH) $@ ./filesystem/
