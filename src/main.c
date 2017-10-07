@@ -43,38 +43,42 @@ int main()
 
     while (true) {
 
-        control_t keys = controls_get_keys();
-        if (IS_DOWN(keys.Z)) {
-            show_fps = !show_fps;
-        }
+        if (!(get_controllers_present() & CONTROLLER_1_INSERTED)) {
+            screen_no_controller(disp);
+        } else {
+            control_t keys = controls_get_keys();
+            if (IS_DOWN(keys.Z)) {
+                show_fps = !show_fps;
+            }
 
-        while (!(disp = display_lock()));
+            while (!(disp = display_lock()));
 
-        switch (screen) {
-            case title:
-                screen_title(disp);
-                if (IS_DOWN(keys.start)) {
-                    delete_timer(timer_press_start);
-                    game_set_level(1);
-                    screen = game;
-                }
-                break;
-            case game:
-                if (screen_game(disp, keys)) {
-                    screen = gameover;
-                }
-                break;
-            case gameover:
-                screen_gameover(disp);
-                if (IS_DOWN(keys.start)) {
-                    game_set_level(1);
-                    screen = game;
-                }
-        }
+            switch (screen) {
+                case title:
+                    screen_title(disp);
+                    if (IS_DOWN(keys.start)) {
+                        delete_timer(timer_press_start);
+                        game_set_level(1);
+                        screen = game;
+                    }
+                    break;
+                case game:
+                    if (screen_game(disp, keys)) {
+                        screen = gameover;
+                    }
+                    break;
+                case gameover:
+                    screen_gameover(disp);
+                    if (IS_DOWN(keys.start)) {
+                        game_set_level(1);
+                        screen = game;
+                    }
+            }
 
-        fps_frame();
-        if (show_fps) {
-            graphics_draw_textf(disp, 5, 5, "FPS: %d", fps_get());
+            fps_frame();
+            if (show_fps) {
+                graphics_draw_textf(disp, 5, 5, "FPS: %d", fps_get());
+            }
         }
         display_show(disp);
     }

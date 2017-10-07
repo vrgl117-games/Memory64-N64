@@ -136,6 +136,17 @@ void screen_gameover(display_context_t disp)
 
     graphics_draw_text_center(disp, 320, 230, "GAME OVER");
 }
+void screen_no_controller(display_context_t disp)
+{
+    rdp_attach(disp);
+
+    // background
+    rdp_draw_filled_rectangle_size(0, 0, 640, 480, colors[DGRAY]);
+
+    rdp_detach_display();
+
+    graphics_draw_text_center(disp, 320, 230, "NO CONTROLLER INSERTED ON PORT #1");
+}
 
 void screen_title(display_context_t disp)
 {
