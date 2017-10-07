@@ -56,7 +56,7 @@ void print_controller()
     rdp_draw_filled_octagon_with_border(490, 210, 12, 12, colors[YELLOW], colors[BLACK]);
 }
 
-bool screen_game(display_context_t disp, controller_t controller)
+bool screen_game(display_context_t disp, control_t keys)
 {
     game_t game = game_get();
 
@@ -85,24 +85,31 @@ bool screen_game(display_context_t disp, controller_t controller)
                 break;
         }
     } else if (game.timer_IA == NULL) {
-        if (controller.start) {
-            gameover = game_play_player(BUTTON_START);
+        if (IS_PRESSED(keys.start)) {
             rdp_draw_filled_octagon_with_border(320, 220, 20, 24, colors[BRED], colors[BLACK]);
+        } else if (IS_UP(keys.start)) {
+            gameover = game_play_player(BUTTON_START);
         }
-        if (controller.A) {
-            gameover = game_play_player(BUTTON_A);
+
+        if (IS_PRESSED(keys.A)) {
             rdp_draw_filled_octagon_with_border(400, 220, 24, 24, colors[BGREEN], colors[BLACK]);
+        } else if (IS_UP(keys.A)) {
+            gameover = game_play_player(BUTTON_A);
         }
-        if (controller.B) {
-            gameover = game_play_player(BUTTON_B);
+
+        if (IS_PRESSED(keys.B)) {
             rdp_draw_filled_octagon_with_border(444, 264, 24, 24, colors[BBLUE], colors[BLACK]);
+        } else if (IS_UP(keys.B)) {
+            gameover = game_play_player(BUTTON_B);
         }
-        if (controller.C_up || controller.C_down || controller.C_left || controller.C_right) {
-            gameover = game_play_player(BUTTON_C);
+
+        if (IS_PRESSED(keys.C)) {
             rdp_draw_filled_octagon_with_border(460, 180, 12, 12, colors[BYELLOW], colors[BLACK]);
             rdp_draw_filled_octagon_with_border(520, 180, 12, 12, colors[BYELLOW], colors[BLACK]);
             rdp_draw_filled_octagon_with_border(490, 150, 12, 12, colors[BYELLOW], colors[BLACK]);
             rdp_draw_filled_octagon_with_border(490, 210, 12, 12, colors[BYELLOW], colors[BLACK]);
+        } else if (IS_UP(keys.C)) {
+            gameover = game_play_player(BUTTON_C);
         }
     }
 

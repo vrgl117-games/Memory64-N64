@@ -43,8 +43,8 @@ int main()
 
     while (true) {
 
-        controller_t controller = controls_get_keys_down();
-        if (controller.Z) {
+        control_t keys = controls_get_keys();
+        if (IS_DOWN(keys.Z)) {
             show_fps = !show_fps;
         }
 
@@ -53,20 +53,20 @@ int main()
         switch (screen) {
             case title:
                 screen_title(disp);
-                if (controller.start) {
+                if (IS_DOWN(keys.start)) {
                     delete_timer(timer_press_start);
                     game_set_level(1);
                     screen = game;
                 }
                 break;
             case game:
-                if (screen_game(disp, controller)) {
+                if (screen_game(disp, keys)) {
                     screen = gameover;
                 }
                 break;
             case gameover:
                 screen_gameover(disp);
-                if (controller.start) {
+                if (IS_DOWN(keys.start)) {
                     game_set_level(1);
                     screen = game;
                 }
