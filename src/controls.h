@@ -10,8 +10,6 @@
 
 #include <libdragon.h>
 
-typedef struct SI_condat controller_t;
-
 typedef struct {
     uint8_t Z;
     uint8_t A;

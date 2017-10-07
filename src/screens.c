@@ -85,6 +85,7 @@ bool screen_game(display_context_t disp, control_t keys)
                 break;
         }
     } else if (game.timer_IA == NULL) {
+        rumble_stop(0);
         if (IS_PRESSED(keys.start)) {
             rdp_draw_filled_octagon_with_border(320, 220, 20, 24, colors[BRED], colors[BLACK]);
         } else if (IS_UP(keys.start)) {

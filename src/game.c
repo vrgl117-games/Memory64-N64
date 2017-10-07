@@ -24,19 +24,17 @@ void game_set_level(uint8_t size)
     game.size = size;
     game.timer_IA = new_timer(TIMER_TICKS(500000), TF_CONTINUOUS, game_timer_IA);
     game.pause = true;
-
 }
 
 void game_timer_IA()
 {
     if (!game.pause) {
         game.current++;
-    } else {
-        if (game.current == game.size) {
+    } else if (game.current == game.size) {
             game.current = 0;
             delete_timer(game.timer_IA);
             game.timer_IA = NULL;
-        }
+            rumble_start(0);
     }
     game.pause = !game.pause;
 }
