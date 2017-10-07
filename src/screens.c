@@ -108,12 +108,12 @@ bool screen_game(display_context_t disp, controller_t controller)
 
 
     // score
-    rdp_draw_filled_rectangle_size(20, 20, 600, 20, colors[DGRAY]);
+    rdp_draw_filled_rectangle_size(20, 20, 600, 18, colors[DGRAY]);
 
     rdp_detach_display();
 
     graphics_draw_textf(disp, 25, 26, "SCORE: %04d", game.score);
-    graphics_draw_textf(disp, 535, 26, "BEST: %04d", game.best);
+    graphics_draw_textf(disp, 536, 26, "BEST: %04d", game.best);
 
     return gameover;
 }
@@ -127,9 +127,7 @@ void screen_gameover(display_context_t disp)
 
     rdp_detach_display();
 
-    graphics_draw_text_center(disp, 320, 240, "GAME OVER");
-    graphics_draw_text_center(disp, 320, 280, "Press start to continue...");
-
+    graphics_draw_text_center(disp, 320, 230, "GAME OVER");
 }
 
 void screen_title(display_context_t disp)
@@ -142,7 +140,7 @@ void screen_title(display_context_t disp)
     graphics_draw_sprite_trans_stride(disp, 320 - filesystem_get_sprite(LOGO)->width / 2, 30, filesystem_get_sprite(LOGO), tick % 9);
 
     // press start
-    if (tick % 4 > 2) {
+    if (tick % 2) {
         rdp_draw_filled_rectangle_size(270, 430, 100, 20, graphics_make_color(0x3a, 0x3a, 0x3a, 0x00));
         graphics_draw_text(disp, 277, 436, "PRESS START");
     }
