@@ -16,40 +16,23 @@ sprite_t *filesystem_load_sprite(const char *const spritename)
     int fp = dfs_open(spritename);
 
     if (fp) {
-        sprite_t *sp = malloc(dfs_size(fp));
-        dfs_read(sp, 1, dfs_size(fp), fp);
+        int size = dfs_size(fp);
+        sprite_t *sp = malloc(size);
+        dfs_read(sp, 1, size, fp);
         dfs_close(fp);
-
-        if (sp->bitdepth > 1) {
-            data_cache_hit_writeback_invalidate( sp->data, sp->width * sp->height * sp->bitdepth );
-        } else if (sp->bitdepth == 1) {
-            data_cache_hit_writeback_invalidate( sp->data, sp->width * sp->height );
-        } else {
-            data_cache_hit_writeback_invalidate( sp->data, (sp->width * sp->height) >> 1 );
-        }
-
         return sp;
     }
 
-
-    return 0;
+    return NULL;
 }
 
 void filesystem_init()
 {
     dfs_init(DFS_DEFAULT_LOCATION);
-    sprites[LOGO] = filesystem_load_sprite("/gfx/logo.sprite");
+    sprites[SPRITE_LOGO] = filesystem_load_sprite("/gfx/logo.sprite");
 }
 
 sprite_t *filesystem_get_sprite(int i)
 {
     return sprites[i];
-}
-
-
-void filesystem_sprites_free()
-{
-    for (int i = 0 ; i < NUM_SPRITES ; i++) {
-        free(sprites[i]);
-    }
 }

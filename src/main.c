@@ -11,6 +11,7 @@
 #include "colors.h"
 #include "controls.h"
 #include "filesystem.h"
+#include "sound.h"
 #include "fps.h"
 #include "game.h"
 #include "graphics.h"
@@ -20,8 +21,12 @@ int main()
 {
     init_interrupts();
     display_init(RESOLUTION_640x480, DEPTH_16_BPP, 2, GAMMA_NONE, ANTIALIAS_RESAMPLE);
+    audio_init(44100, 4);
+
+
     rdp_init();
     filesystem_init();
+    sound_init();
     controller_init();
     colors_init();
     timer_init();
@@ -49,6 +54,7 @@ int main()
             control_t keys = controls_get_keys();
             if (IS_DOWN(keys.Z)) {
                 show_fps = !show_fps;
+                sound_play(SOUND_A);
             }
 
             while (!(disp = display_lock()));
@@ -58,6 +64,7 @@ int main()
                     screen_title(disp);
                     if (IS_DOWN(keys.start)) {
                         delete_timer(timer_press_start);
+                        free(filesystem_get_sprite(SPRITE_LOGO));
                         game_set_level(1);
                         screen = game;
                     }
@@ -81,11 +88,13 @@ int main()
             }
         }
         display_show(disp);
+        sound_frame();
     }
 
+    timer_close();
+    rdp_close();
+    audio_close();
     display_close();
-    filesystem_sprites_free();
-
     return 0;
 
 }

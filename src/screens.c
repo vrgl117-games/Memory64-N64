@@ -156,7 +156,8 @@ void screen_title(display_context_t disp)
     print_controller();
 
     // logo
-    graphics_draw_sprite_trans_stride(disp, 320 - filesystem_get_sprite(LOGO)->width / 2, 30, filesystem_get_sprite(LOGO), tick % 9);
+    sprite_t *logo = filesystem_get_sprite(SPRITE_LOGO);
+    graphics_draw_sprite_trans_stride(disp, 320 - logo->width / 2, 30, logo, tick % 9);
 
     // press start
     if (tick % 2) {

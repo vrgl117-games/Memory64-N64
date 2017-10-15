@@ -1,4 +1,4 @@
-/* filesystem.h -- filesystem helpers header
+/* filesystem.h -- sound helpers header
  *
  * Copyright (C) 2017 Victor Vieux
  *
@@ -6,12 +6,9 @@
  * of the Apache license.  See the LICENSE file for details.
  */
 
-#ifndef __FILESYSTEM_H__
+#ifndef __SOUND_H__
 
 #include <libdragon.h>
-
-#define SPRITE_LOGO 0
-#define NUM_SPRITES 1
 
 #define SOUND_A 0
 #define SOUND_B 1
@@ -19,7 +16,14 @@
 #define SOUND_START 3
 #define NUM_SOUNDS 4
 
-void filesystem_init();
-sprite_t *filesystem_get_sprite(int i);
+typedef struct sound {
+    int32_t cursor;
+    uint32_t frames;
+    short *data;
+} sound_t;
 
-#endif //__FILESYSTEM_H__
+void sound_init();
+void sound_play(int sound);
+void sound_frame();
+
+#endif //__SOUND_H__

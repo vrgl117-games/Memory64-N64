@@ -29,11 +29,19 @@ $(PROG_NAME).elf : $(OBJS)
 	$(LD) -o $@ $^ $(LINK_FLAGS)
 
 
-sprites: $(wildcard resources/gfx/*.png)
+sprites:
 	mkdir -p filesystem/gfx/
 	$(MKSPRITE) 16 1 9 resources/gfx/logo.png filesystem/gfx/logo.sprite
 
-$(PROG_NAME).dfs: sprites
+sounds:
+	mkdir -p filesystem/sfx/
+	sox resources/sfx/A.aiff -b 16 -e signed-integer -B -r 44100 filesystem/sfx/A.raw remix -
+	sox resources/sfx/B.aiff -b 16 -e signed-integer -B -r 44100 filesystem/sfx/B.raw remix -
+	sox resources/sfx/C.aiff -b 16 -e signed-integer -B -r 44100 filesystem/sfx/C.raw remix -
+	sox resources/sfx/start.aiff -b 16 -e signed-integer -B -r 44100 filesystem/sfx/start.raw remix -
+
+
+$(PROG_NAME).dfs: sprites sounds
 	$(MKDFSPATH) $@ ./filesystem/
 
 
@@ -43,5 +51,6 @@ cen64:
 docker:
 	docker build -t build .
 	docker run --rm build cat $(PROG_NAME).z64 > $(PROG_NAME).z64
+
 clean:
 	rm -f *.z64 *.elf src/*.o *.bin *.dfs
