@@ -8,7 +8,6 @@
 
 #include "colors.h"
 #include "controls.h"
-#include "filesystem.h"
 #include "fps.h"
 #include "game.h"
 #include "graphics.h"
@@ -123,6 +122,12 @@ bool screen_game(display_context_t disp, control_t keys)
     graphics_draw_textf(disp, 25, 26, "SCORE: %04d", game.score);
     graphics_draw_textf(disp, 536, 26, "BEST: %04d", game.best);
 
+    if (game.timer_IA == NULL) {
+          graphics_draw_text_center(disp, 320, 26, "< PLAYER >");
+    } else {
+          graphics_draw_text_center(disp, 320, 26, "<<< IA >>>");
+    }
+
     return gameover;
 }
 
@@ -149,14 +154,13 @@ void screen_no_controller(display_context_t disp)
     graphics_draw_text_center(disp, 320, 230, "NO CONTROLLER INSERTED ON PORT #1");
 }
 
-void screen_title(display_context_t disp)
+void screen_title(display_context_t disp, sprite_t *logo)
 {
     rdp_attach(disp);
 
     print_controller();
 
     // logo
-    sprite_t *logo = filesystem_get_sprite(SPRITE_LOGO);
     graphics_draw_sprite_trans_stride(disp, 320 - logo->width / 2, 30, logo, tick % 9);
 
     // press start

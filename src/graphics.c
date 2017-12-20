@@ -80,3 +80,4 @@ void graphics_draw_text_center(display_context_t disp, int x, int y, const char 
     graphics_draw_text(disp, x - strlen(msg) * 6 / 2, y, msg);
 }
 
+

@@ -10,7 +10,7 @@
 
 #include "colors.h"
 #include "controls.h"
-#include "filesystem.h"
+#include "dfs.h"
 #include "sound.h"
 #include "fps.h"
 #include "game.h"
@@ -25,7 +25,7 @@ int main()
 
 
     rdp_init();
-    filesystem_init();
+    dfs_init(DFS_DEFAULT_LOCATION);
     sound_init();
     controller_init();
     colors_init();
@@ -41,6 +41,7 @@ int main()
     display_context_t disp = 0;
 
     screen_t screen = title;
+    sprite_t *logo = dfs_load("/gfx/logo.sprite");
 
     bool show_fps = false;
 
@@ -61,10 +62,10 @@ int main()
 
             switch (screen) {
                 case title:
-                    screen_title(disp);
+                    screen_title(disp, logo);
                     if (IS_DOWN(keys.start)) {
                         delete_timer(timer_press_start);
-                        free(filesystem_get_sprite(SPRITE_LOGO));
+                        free(logo);
                         game_set_level(1);
                         screen = game;
                     }
