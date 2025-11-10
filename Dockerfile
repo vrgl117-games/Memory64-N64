@@ -1,4 +1,4 @@
-FROM vieux/libdragon:latest
+FROM anacierdem/libdragon
 
 RUN apt-get update && apt-get install -yq sox
 

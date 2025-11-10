@@ -165,9 +165,13 @@ void screen_title(display_context_t disp, sprite_t *logo)
 
     // press start
     if (tick % 2) {
-        rdp_draw_filled_rectangle_size(270, 430, 100, 20, graphics_make_color(0x3a, 0x3a, 0x3a, 0x00));
-        graphics_draw_text(disp, 277, 436, "PRESS START");
+        rdp_draw_filled_rectangle_size(270, 430, 100, 20, graphics_make_color(0x3a, 0x3a, 0x3a, 0x00));    
     }
 
     rdp_detach_display();
+
+    // press start
+    if (tick % 2) {
+        graphics_draw_text(disp, 277, 436, "PRESS START");        
+    }
 }
